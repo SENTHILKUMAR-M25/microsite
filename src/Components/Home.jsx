@@ -65,7 +65,7 @@ const Home = () => {
               </h2>
 
               <Link
-                to="/projects"
+                to="/microsite"
                 className="group relative inline-flex items-center overflow-hidden"
               >
                 <span className="text-lg font-sans font-medium pr-12 transition-all group-hover:pr-16">
