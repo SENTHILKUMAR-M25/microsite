@@ -1,80 +1,93 @@
-import React from 'react';
-import { ArrowRight, MapPin, Home as HomeIcon } from 'lucide-react';
 
-const Home = () => {
+
+import React, { useState, useEffect } from "react";
+import { MapPin, MousePointer2 } from "lucide-react";
+
+const Home = ({ project }) => {
+  const [currentBg, setCurrentBg] = useState(0);
+
+  // Auto-slide background if there are multiple images
+  useEffect(() => {
+    if (project.bg_img?.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentBg((prev) => (prev + 1) % project.bg_img.length);
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [project.bg_img]);
+
   return (
-    <section
-      id="home"
-      className="relative h-screen min-h-[600px] flex items-center overflow-hidden"
-    >
-      {/* Background Image with Gradient Overlay for Readability */}
-      <div 
-        className="absolute inset-0 z-0 transition-transform duration-1000 scale-105 hover:scale-100"
-        style={{ 
-          backgroundImage: 'https://media.istockphoto.com/id/2155879454/photo/this-is-an-exterior-photo-of-a-home-for-sale-in-beverly-hills-ca.jpg?s=612x612&w=0&k=20&c=uSKacMQvmaYX5Pf5Br7pUfErYQbNt_UWXRTjfwrdSDQ=',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+    <section className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden bg-slate-950">
+      {/* Dynamic Background with Fade Effect */}
+      {project.bg_img?.map((img, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === currentBg ? "opacity-100 scale-110 animate-ken-burns" : "opacity-0"
+          }`}
+          style={{
+            backgroundImage: `url(${img})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      ))}
 
-      <div className="relative z-20 max-w-7xl mx-auto px-6 w-full">
-        <div className="max-w-2xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-sky-600/20 border border-sky-400/30 backdrop-blur-md px-3 py-1 rounded-full text-sky-400 text-sm font-semibold mb-6 animate-fade-in">
-            <HomeIcon size={14} />
-            <span>Limited Units Available</span>
-          </div>
+      {/* Gradient Overlays for Readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/70 z-1" />
+      <div className="absolute inset-0 bg-black/20 z-1" />
 
-          {/* Typography with better scaling */}
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-            Luxury Living <br /> 
-            <span className="text-sky-500">Redefined.</span>
-          </h1>
-
-          <p className="text-xl text-gray-200 mb-8 max-w-lg leading-relaxed">
-            Experience the pinnacle of comfort in our premium 2 & 3 BHK apartments, 
-            designed for those who appreciate the finer things in life.
+      {/* Main Content */}
+      <div className="relative z-10 text-center max-w-5xl px-6 space-y-6">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="h-[1px] w-12 bg-blue-500"></span>
+          <p className="uppercase tracking-[0.4em] text-sm font-medium text-blue-400">
+            Exclusive Listing
           </p>
+          <span className="h-[1px] w-12 bg-blue-500"></span>
+        </div>
 
-          {/* Primary & Secondary CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="#contact"
-              className="group bg-sky-600 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:bg-sky-500 hover:shadow-xl hover:shadow-sky-600/20 active:scale-95"
-            >
-              Book a Site Visit
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            
-            <a
-              href="#amenities"
-              className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2"
-            >
-              View Amenities
-            </a>
+        <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter leading-tight drop-shadow-2xl">
+          {project.name}
+        </h1>
+
+        <p className="text-xl md:text-3xl font-light text-slate-200 tracking-wide max-w-2xl mx-auto italic opacity-90">
+          "{project.tagline}"
+        </p>
+
+        <div className="pt-10 flex flex-col items-center gap-6">
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
+            <MapPin size={18} className="text-blue-400" />
+            <span className="text-sm md:text-base font-medium tracking-wide">
+              {project.address}
+            </span>
           </div>
 
-          {/* Trust Indicators / Quick Info */}
-          <div className="mt-12 flex items-center gap-6 text-white/80">
-            <div className="flex items-center gap-2">
-              <MapPin size={20} className="text-sky-500" />
-              <span className="text-sm font-medium">Prime District, Mumbai</span>
-            </div>
-            <div className="h-4 w-[1px] bg-white/30" />
-            <div className="text-sm font-medium">
-              Starting from <span className="text-white font-bold">$1.2M</span>
-            </div>
+          <div className="flex flex-col items-center gap-2">
+             <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold">Starting From</p>
+             <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+               {project.price}
+             </span>
           </div>
         </div>
       </div>
 
-      {/* Elegant Bottom Edge Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:block">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
-          <div className="w-1 h-2 bg-white rounded-full animate-bounce" />
-        </div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+        <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Discover</span>
+        <MousePointer2 size={20} />
       </div>
+
+      {/* Custom Styles for Ken Burns Effect */}
+      <style jsx>{`
+        @keyframes ken-burns {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.1); }
+        }
+        .animate-ken-burns {
+          animation: ken-burns 10s ease-out forwards;
+        }
+      `}</style>
     </section>
   );
 };

@@ -62,7 +62,7 @@ function AppContent() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/setup" element={<PortfolioForm />} />
-        <Route path="/microsite" element={<MicroSite />} />
+        <Route path="/project/:id" element={<MicroSite />} />
         <Route path="/add-project" element={<AddProject />} />
       </Routes>
 

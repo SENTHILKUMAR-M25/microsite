@@ -1,57 +1,64 @@
-import React from 'react';
-import { 
-  Waves, 
-  Dumbbell, 
-  ShieldCheck, 
-  Gamepad2, 
-  Car, 
-  Trees 
-} from 'lucide-react';
 
-const amenities = [
-  { name: "Swimming Pool", icon: <Waves />, desc: "Infinity pool with a temperature-controlled deck." },
-  { name: "Modern Gym", icon: <Dumbbell />, desc: "World-class equipment and dedicated yoga space." },
-  { name: "24/7 Security", icon: <ShieldCheck />, desc: "Multi-tier security with smart biometric access." },
-  { name: "Kids Play Area", icon: <Gamepad2 />, desc: "Safe, rubberized flooring with modern play zones." },
-  { name: "Secure Parking", icon: <Car />, desc: "Spacious multi-level parking with EV charging." },
-  { name: "Zen Garden", icon: <Trees />, desc: "Beautifully landscaped spaces for meditation." },
-];
+import React from "react";
+import { Waves, Dumbbell, ShieldCheck, Car, CheckCircle2, Sparkles } from "lucide-react";
 
-const Amenities = () => {
+// Updated map for a clean editorial look
+const iconMap = {
+  "Infinity Pool": <Waves size={28} strokeWidth={1.5} />,
+  "Modern Gym": <Dumbbell size={28} strokeWidth={1.5} />,
+  "24/7 Security": <ShieldCheck size={28} strokeWidth={1.5} />,
+  "Private Parking": <Car size={28} strokeWidth={1.5} />,
+};
+
+const Amenities = ({ project }) => {
   return (
-    <section id="amenities" className="py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            World-Class <span className="text-sky-600">Amenities</span>
-          </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-            Every detail is designed to provide you with an unparalleled living experience.
+    <section className="px-6 py-24 md:px-20 bg-[#FCFCFC] overflow-hidden relative">
+      {/* Subtle Background Accent */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-50/30 -skew-x-12 translate-x-1/4 -z-0" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header with Editorial Flair */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <Sparkles size={16} className="text-blue-600" />
+              <span className="text-blue-600 font-bold text-[10px] tracking-[0.4em] uppercase">
+                Lifestyle & Amenities
+              </span>
+            </div>
+            <h3 className="text-5xl md:text-6xl font-bold text-slate-900 tracking-tighter leading-none">
+              The <span className="text-slate-400 font-light italic">Standard</span> of Living
+            </h3>
+          </div>
+          <p className="text-slate-500 max-w-sm text-lg font-light leading-relaxed">
+            Every detail is meticulously crafted to ensure a life of absolute comfort and sophistication.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {amenities.map((item, index) => (
-            <div
-              key={index}
-              className="group relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {project.amenities.map((item, i) => (
+            <div 
+              key={i} 
+              className="group relative p-10 bg-white border border-slate-100 rounded-[2.5rem] hover:border-blue-200 transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)]"
             >
-              {/* Decorative background element */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-sky-50 rounded-bl-full -z-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Animated Icon Container */}
+              <div className="mb-8 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 text-slate-900 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 transform group-hover:rotate-[10deg]">
+                {iconMap[item.name] || <CheckCircle2 size={28} strokeWidth={1.5} />}
+              </div>
 
-              <div className="relative z-10">
-                <div className="w-14 h-14 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-sky-600 group-hover:text-white transition-colors duration-300">
-                  {React.cloneElement(item.icon, { size: 28 })}
-                </div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <div className="space-y-3">
+                <h4 className="text-xl font-bold text-slate-900 tracking-tight transition-colors">
                   {item.name}
-                </h3>
+                </h4>
                 
-                <p className="text-gray-500 leading-relaxed">
-                  {item.desc}
+                <p className="text-slate-500 text-sm leading-relaxed font-light">
+                  {item.desc || "Refining the essence of contemporary architecture and comfort."}
                 </p>
               </div>
+
+              {/* Subtle Decorative Line */}
+              <div className="mt-8 h-[1px] w-0 bg-blue-100 group-hover:w-full transition-all duration-700" />
             </div>
           ))}
         </div>

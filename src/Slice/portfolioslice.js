@@ -1,89 +1,9 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//   /* ---------------- HOME ---------------- */
-//   name: "",
-//   tagline: "",
-//   description: "",
-//   phone: "",
-//   email: "",
-//   location: "",
-
-//   /* ---------------- ABOUT ---------------- */
-//   profile: {
-//     name: "",
-//     experience: "",
-//     description: "",
-//     projectsCount: "",
-//     clientsCount: "",
-//     location: "",
-//   },
-
-//   /* ---------------- PROJECTS ---------------- */
-//   projects: [],
-
-//   /* ---------------- FOOTER ---------------- */
-//   footer: {
-//     brandName: "",
-//     description: "",
-//     phone: "",
-//     email: "",
-//     location: "",
-//     facebook: "",
-//     instagram: "",
-//     linkedin: "",
-//   },
-// };
-
-// const portfolioSlice = createSlice({
-//   name: "portfolio",
-//   initialState,
-//   reducers: {
-//     /* -------- HOME + FOOTER -------- */
-//     updatePortfolio: (state, action) => {
-//       return {
-//         ...state,
-//         ...action.payload,
-//       };
-//     },
-
-//     /* -------- ABOUT -------- */
-//     updateProfile: (state, action) => {
-//       state.profile = action.payload;
-//     },
-
-//     /* -------- PROJECTS -------- */
-//     addProject: (state, action) => {
-//       state.projects.push(action.payload);
-//     },
-
-//     deleteProject: (state, action) => {
-//       state.projects = state.projects.filter(
-//         (project) => project.id !== action.payload
-//       );
-//     },
-
-//     /* -------- RESET (OPTIONAL) -------- */
-//     resetPortfolio: () => initialState,
-//   },
-// });
-
-// export const {
-//   updatePortfolio,
-//   updateProfile,
-//   addProject,
-//   deleteProject,
-//   resetPortfolio,
-// } = portfolioSlice.actions;
-
-// export default portfolioSlice.reducer;
-
 
 
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  /* ---------------- HOME ---------------- */
+  /* ---------------- HOME INFO ---------------- */
   name: "Senthil Kumar",
   tagline: "Trusted Real Estate Consultant",
   description: "Helping clients find the perfect property with transparency.",
@@ -91,7 +11,7 @@ const initialState = {
   email: "vspropertyvision@gmail.com",
   location: "Chennai, Tamil Nadu, India",
 
-  /* ---------------- ABOUT ---------------- */
+  /* ---------------- ABOUT PROFILE ---------------- */
   profile: {
     name: "Senthil Kumar",
     experience: "3+ Years",
@@ -104,6 +24,9 @@ const initialState = {
 
   /* ---------------- PROJECTS ---------------- */
   projects: [],
+
+  /* which project should show on home */
+  featuredProjectId: null,
 
   /* ---------------- FOOTER ---------------- */
   footer: {
@@ -123,17 +46,17 @@ const portfolioSlice = createSlice({
   name: "portfolio",
   initialState,
   reducers: {
-    /* -------- HOME -------- */
+    /* ================= HOME ================= */
     updateHome: (state, action) => {
       return { ...state, ...action.payload };
     },
 
-    /* -------- ABOUT -------- */
+    /* ================= PROFILE ================= */
     updateProfile: (state, action) => {
       state.profile = action.payload;
     },
 
-    /* -------- FOOTER (NEW & CLEAN) -------- */
+    /* ================= FOOTER ================= */
     updateFooter: (state, action) => {
       state.footer = {
         ...state.footer,
@@ -141,18 +64,56 @@ const portfolioSlice = createSlice({
       };
     },
 
-    /* -------- PROJECTS -------- */
+    /* ================= PROJECTS ================= */
+
+    // ➕ Add new project
     addProject: (state, action) => {
-      state.projects.push(action.payload);
+      const newProject = {
+        id: Date.now(), // unique id
+        createdAt: new Date().toISOString(),
+        ...action.payload,
+      };
+
+      state.projects.push(newProject);
+
+      // if first project -> auto featured
+      if (!state.featuredProjectId) {
+        state.featuredProjectId = newProject.id;
+      }
     },
 
+    // ❌ Delete project
     deleteProject: (state, action) => {
       state.projects = state.projects.filter(
         (project) => project.id !== action.payload
       );
+
+      // if deleted project was featured -> set another
+      if (state.featuredProjectId === action.payload) {
+        state.featuredProjectId =
+          state.projects.length > 0 ? state.projects[0].id : null;
+      }
     },
 
-    /* -------- RESET -------- */
+    // ✏️ Update project
+    updateProject: (state, action) => {
+      const index = state.projects.findIndex(
+        (p) => p.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.projects[index] = {
+          ...state.projects[index],
+          ...action.payload,
+        };
+      }
+    },
+
+    // ⭐ set featured project
+    setFeaturedProject: (state, action) => {
+      state.featuredProjectId = action.payload;
+    },
+
+    /* ================= RESET ================= */
     resetPortfolio: () => initialState,
   },
 });
@@ -163,6 +124,8 @@ export const {
   updateFooter,
   addProject,
   deleteProject,
+  updateProject,
+  setFeaturedProject,
   resetPortfolio,
 } = portfolioSlice.actions;
 

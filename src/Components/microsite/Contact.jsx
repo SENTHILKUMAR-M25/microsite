@@ -1,128 +1,149 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Send, Facebook, Instagram, Linkedin } from 'lucide-react';
 
-const Contact = () => {
+import React from "react";
+import { Facebook, Instagram, Linkedin, Twitter, MapPin, Send, Mail, PhoneCall, Globe } from "lucide-react";
+
+const Contact = ({ project }) => {
+  // Only show social links that are provided
+  const socials = [
+    { icon: <Facebook size={20} />, link: project.facebook },
+    { icon: <Instagram size={20} />, link: project.instagram },
+    { icon: <Linkedin size={20} />, link: project.linkedin },
+    { icon: <Twitter size={20} />, link: project.twitter },
+  ].filter(s => s.link);
+
   return (
-    <section id="contact" className="py-24 bg-slate-900 text-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+    <section id="contact" className="py-24 px-6 md:px-20 bg-white text-slate-900 relative">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-50/50 rounded-bl-[10rem] -z-0" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           
-          {/* Left Side: Contact Info & Branding */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-4xl font-bold mb-4">Let's Find Your <span className="text-sky-400">Dream Home</span></h2>
-              <p className="text-gray-400 text-lg">
-                Have questions about the property or want to schedule a private tour? 
-                Our team is ready to assist you 24/7.
+          {/* Left Side: Concierge Info */}
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="h-[1px] w-12 bg-blue-600" />
+                <span className="text-blue-600 font-bold text-xs tracking-[0.4em] uppercase">Private Concierge</span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-tight text-slate-900">
+                Let's Start a <br />
+                <span className="text-slate-400 font-light italic">Conversation</span>
+              </h2>
+              <p className="text-slate-500 text-lg font-light max-w-md leading-relaxed">
+                Ready to secure your piece of <span className="text-slate-900 font-semibold">{project.name}</span>? Our expert advisors are available for private consultations.
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-sky-500/10 rounded-lg flex items-center justify-center text-sky-400 shrink-0">
-                  <MapPin size={24} />
+            {/* Contact Details Grid */}
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-blue-600">
+                  <MapPin size={18} />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Estate Address</span>
                 </div>
-                <div>
-                  <h4 className="font-bold text-lg">Visit Us</h4>
-                  <p className="text-gray-400">123 Luxury Lane, Sky District, Mumbai 400001</p>
-                </div>
+                <p className="text-slate-600 font-medium leading-relaxed">{project.address}</p>
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-sky-500/10 rounded-lg flex items-center justify-center text-sky-400 shrink-0">
-                  <Phone size={24} />
+              
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-blue-600">
+                  <Mail size={18} />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Digital Mail</span>
                 </div>
-                <div>
-                  <h4 className="font-bold text-lg">Call Anytime</h4>
-                  <p className="text-gray-400">+1 (234) 567-890</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-sky-500/10 rounded-lg flex items-center justify-center text-sky-400 shrink-0">
-                  <Mail size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg">Email Us</h4>
-                  <p className="text-gray-400">sales@vsproperty.com</p>
-                </div>
+                <p className="text-slate-600 font-medium">concierge@{project.name.toLowerCase().replace(/\s/g, '')}.com</p>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-4 pt-4">
-              {[Facebook, Instagram, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-sky-600 hover:border-sky-600 transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
+            {socials.length > 0 && (
+              <div className="pt-8 space-y-6">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Follow the Journey</h4>
+                <div className="flex gap-4">
+                  {socials.map((social, i) => (
+                    <a
+                      key={i}
+                      href={social.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Side: Elegant Inquiry Form */}
+          <div className="relative">
+            {/* Form Shadow Accent */}
+            <div className="absolute -inset-4 bg-slate-50 rounded-[3rem] -z-10" />
+            
+            <div className="bg-white border border-slate-100 p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)]">
+              <form className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-slate-400 ml-1">Your Name</label>
+                    <input type="text" className="contact-input" placeholder="Alexander Graham" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-slate-400 ml-1">Email Address</label>
+                    <input type="email" className="contact-input" placeholder="alex@residence.com" />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-slate-400 ml-1">Service Required</label>
+                  <div className="relative">
+                    <select className="contact-input appearance-none cursor-pointer">
+                      <option>Request Site Visit</option>
+                      <option>Brochure Download</option>
+                      <option>Investment Inquiry</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300">
+                      <Globe size={16} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-slate-400 ml-1">Message</label>
+                  <textarea className="contact-input h-36 resize-none" placeholder="Describe your interest..." />
+                </div>
+
+                <button className="w-full py-5 bg-slate-900 hover:bg-blue-600 text-white rounded-2xl font-bold tracking-widest uppercase text-xs transition-all flex items-center justify-center gap-3 group shadow-xl shadow-slate-200 hover:shadow-blue-100">
+                  Send Inquiry
+                  <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </button>
+              </form>
             </div>
           </div>
 
-          {/* Right Side: The Form Card */}
-          <div className="bg-white rounded-3xl p-8 lg:p-10 shadow-2xl text-gray-900 relative">
-            {/* Subtle background glow */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-sky-500/20 blur-3xl rounded-full -z-0" />
-            
-            <form className="space-y-5 relative z-10">
-              <div className="grid md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-600 ml-1">Full Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Doe" 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all bg-gray-50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-600 ml-1">Phone Number</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+1 234..." 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all bg-gray-50"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600 ml-1">Email Address</label>
-                <input 
-                  type="email" 
-                  placeholder="john@example.com" 
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all bg-gray-50"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600 ml-1">Your Message</label>
-                <textarea 
-                  rows="4" 
-                  placeholder="Tell us about your requirements..." 
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all bg-gray-50 resize-none"
-                ></textarea>
-              </div>
-
-              <button className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-sky-600/30 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
-                Schedule Site Visit <Send size={18} />
-              </button>
-              
-              <p className="text-center text-xs text-gray-400 mt-4">
-                By submitting, you agree to our <a href="#" className="underline">Privacy Policy</a>.
-              </p>
-            </form>
-          </div>
-        </div>
-
-        {/* Mini Footer */}
-        <div className="mt-24 pt-8 border-t border-gray-800 flex flex-col md:row justify-between items-center gap-4 text-gray-500 text-sm">
-          <p>© 2026 VS Property. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Sitemap</a>
-          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .contact-input {
+          width: 100%;
+          background: #fcfcfc;
+          border: 1px solid #f1f5f9;
+          border-radius: 1rem;
+          padding: 1rem 1.25rem;
+          color: #1e293b;
+          font-size: 0.875rem;
+          transition: all 0.3s ease;
+        }
+        .contact-input:focus {
+          outline: none;
+          background: #fff;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+        }
+        .contact-input::placeholder {
+          color: #cbd5e1;
+        }
+      `}</style>
     </section>
   );
 };

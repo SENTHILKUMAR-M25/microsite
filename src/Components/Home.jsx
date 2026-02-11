@@ -53,7 +53,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right Column: Hero Content */}
           <div className="md:col-span-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

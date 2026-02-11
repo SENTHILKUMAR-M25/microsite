@@ -174,44 +174,7 @@ const PortfolioForm = () => {
                   </div>
                 )}
 
-                {/* PROJECTS TAB */}
-                {activeTab === "projects" && (
-                  <div className="space-y-10">
-                    <TabHeader title="Property Catalog" desc="Showcase your architectural or real estate portfolio." />
-                    
-                    <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100">
-                      <h4 className="text-sm font-black uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                        <Plus size={16} /> New Listing
-                      </h4>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <Input label="Property Title" value={projectData.title} onChange={(e) => setProjectData({ ...projectData, title: e.target.value })} />
-                        <Input label="Location" value={projectData.location} onChange={(e) => setProjectData({ ...projectData, location: e.target.value })} />
-                        <Input label="Price / Value" value={projectData.price} onChange={(e) => setProjectData({ ...projectData, price: e.target.value })} />
-                        <Select label="Type" value={projectData.type} options={["Apartment", "Villa", "Plot", "Commercial"]} onChange={(e) => setProjectData({ ...projectData, type: e.target.value })} />
-                        <Select label="Status" value={projectData.status} options={["Ready to Move", "Under Construction", "Sold"]} onChange={(e) => setProjectData({ ...projectData, status: e.target.value })} />
-                        <Input label="Total Area (Sqft)" value={projectData.area} onChange={(e) => setProjectData({ ...projectData, area: e.target.value })} />
-                      </div>
-                      <button onClick={handleProjectSubmit} className="mt-8 w-full bg-white border-2 border-dashed border-slate-200 py-4 rounded-2xl font-bold text-slate-500 hover:border-sky-500 hover:text-sky-600 transition-all flex items-center justify-center gap-2">
-                        Push to Live Catalog <ArrowRight size={18}/>
-                      </button>
-                    </div>
 
-                    <div className="grid gap-4 mt-10">
-                      <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Current Listings ({portfolio.projects.length})</h4>
-                      {portfolio.projects.map((p) => (
-                        <div key={p.id} className="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-2xl hover:border-sky-100 hover:bg-sky-50/20 transition-all group">
-                          <div>
-                            <p className="font-bold text-slate-800">{p.title}</p>
-                            <p className="text-xs text-slate-400 uppercase tracking-wide">{p.location} • {p.price}</p>
-                          </div>
-                          <button onClick={() => dispatch(deleteProject(p.id))} className="p-3 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
-                            <Trash2 size={20} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* FOOTER TAB */}
                 {activeTab === "footer" && (
