@@ -88,7 +88,7 @@ const PortfolioForm = () => {
   const tabs = [
     { id: "home", label: "Identity", icon: <Home size={18} /> },
     { id: "about", label: "About", icon: <User size={18} /> },
-    { id: "projects", label: "Portfolio", icon: <Briefcase size={18} /> },
+    // { id: "projects", label: "Portfolio", icon: <Briefcase size={18} /> },
     { id: "footer", label: "Footer", icon: <Layout size={18} /> },
   ];
 
